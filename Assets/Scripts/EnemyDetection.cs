@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyDetection : MonoBehaviour
@@ -10,6 +11,9 @@ public class EnemyDetection : MonoBehaviour
 
     public AudioClip audioClip;
     private AudioSource audioSource;
+
+    public event Action PlayerDetected;
+
 
 
     void Start()

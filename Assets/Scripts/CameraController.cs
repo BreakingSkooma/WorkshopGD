@@ -1,24 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public float smoothing;
+    public Transform player; // Référence au transform du joueur
+    public Transform enemy;  // Référence au transform de l'ennemi
 
-    public Vector2 maxPos;
-    public Vector2 minPos;
+    public float smoothSpeed = 0.125f; // Vitesse de lissage du mouvement de la caméra
 
     private void FixedUpdate()
     {
-        if(transform.position != target.position)
+        // Vérifier si l'ennemi est repéré (par exemple, avec un rayon de détection)
+        if (EnemyDetected())
         {
-            Vector3 targetPos = new Vector3(target.position.x, target.position.y, target.position.z);
-            targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
-            targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
-
-            transform.position = Vector3.Lerp(transform.position, targetPos, smoothing);
+            // Si l'ennemi est repéré, centrer la caméra sur lui pendant un court instant
+            FocusOnEnemy();
         }
+        else
+        {
+            // Sinon, revenir au suivi du joueur
+            FollowPlayer();
+        }
+    }
+
+    void FollowPlayer()
+    {
+        // Calculer la nouvelle position de la caméra en suivant le joueur
+        Vector3 desiredPosition = player.position;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = new Vector3(smoothedPosition.x, smoothedPosition.y, transform.position.z);
+    }
+
+    void FocusOnEnemy()
+    {
+        // Centrer la caméra sur l'ennemi pendant un court instant
+        Vector3 desiredPosition = enemy.position;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = new Vector3(smoothedPosition.x, smoothedPosition.y, transform.position.z);
+    }
+
+    bool EnemyDetected()
+    {
+        // Implémenter la logique pour détecter l'ennemi (par exemple, utiliser des rayons, des collisions, etc.)
+        // Renvoie true si l'ennemi est détecté, sinon false
+        // Assurez-vous d'adapter cette fonction selon vos besoins spécifiques
+        return false;
     }
 }
