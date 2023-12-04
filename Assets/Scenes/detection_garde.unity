@@ -331,6 +331,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
+  audioClip: {fileID: 8300000, guid: 4721a1b695a849f4192dc6853cfa5518, type: 3}
 --- !u!1 &841822188
 GameObject:
   m_ObjectHideFlags: 0
@@ -5408,6 +5409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c34d76b96066f5c409b39aa0a5f94192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: c447fb98c32738046a31242f504ecedb, type: 3}
   Vfx: {fileID: 841822188}
 --- !u!4 &1710204508
 Transform:

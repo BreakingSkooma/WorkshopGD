@@ -8,9 +8,14 @@ public class EnemyDetection : MonoBehaviour
     private Transform player;
     private bool playerDetected = false;
 
-    
+    public AudioClip audioClip;
+    private AudioSource audioSource;
+
+
     void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         Debug.Log(player);
     }
@@ -33,6 +38,7 @@ public class EnemyDetection : MonoBehaviour
                     if (collider.CompareTag("Player"))
                     {
                         Debug.Log("Player detected!");
+                        audioSource.Play();
                         playerDetected = true;
 
                         // Ajoutez une ligne pour réinitialiser la détection
