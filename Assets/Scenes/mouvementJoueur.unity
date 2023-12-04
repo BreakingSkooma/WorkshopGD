@@ -184,9 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfceb755c1442548bab874dd9f0bc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathMarkerPrefab: {fileID: 5776615197778084430, guid: 827e8c7832368e54cb44c691f31c65b6, type: 3}
   entities:
   - {fileID: 684461040}
-  path: []
+  pathMarkers: []
 --- !u!1 &531282434
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +260,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.2574123, g: 0.3124448, b: 1, a: 1}
   m_FlipX: 0
