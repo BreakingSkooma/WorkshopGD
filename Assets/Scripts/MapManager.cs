@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+//Classe qui fait le lien entre la TileMap et les datas des tiles
 public class MapManager : MonoBehaviour
 {
     //Singleton
@@ -32,26 +33,12 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridposition = map.WorldToCell(mouseposition);
-
-            TileBase clickedTile = map.GetTile(gridposition);
-            bool walkable = dataFromTiles[clickedTile].walkable;
-
-            print("At position " + gridposition + " there is a " + clickedTile+ " and the walkable is "+walkable);
-        }
-    }
 
     //Method who convert a world position to a grid position
     public Vector3Int GetGridPosition(Vector2 position)
     {
         return map.WorldToCell(position);
     }
-
 
     // Method who return the TileBase Object at one position
     public TileBase GetTile(Vector2 position)
@@ -81,6 +68,30 @@ public class MapManager : MonoBehaviour
     public bool IsTileWalkable(TileBase tile)
     {
         return dataFromTiles[tile].walkable;
+    }
+
+    //Method who return tile world coords
+
+    public Vector2 GetWorldCords(Vector3Int gridPosition)
+    {
+        return map.CellToWorld(gridPosition);
+    }
+
+    public bool CheckTile(Vector3Int gridPosition)
+    {
+        return map.HasTile(gridPosition);
+    }
+
+    public List<Vector2> ConvertToWorldCoordsList(List<Vector3Int> gridCoordsList)
+    { 
+        List<Vector2> result = new List<Vector2>();
+        foreach (Vector3Int coord in gridCoordsList)
+        {
+            Vector2 newCoords = GetWorldCords(coord);
+            newCoords += new Vector2(0.5f, 0.5f);
+            result.Add(newCoords);
+        }
+        return result;
     }
 
 
