@@ -8,12 +8,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField]
+    private GameObject pathMarkerPrefab;
+
+    [SerializeField]
     private List<GameObject> entities;
 
     private Player playerSelected;
 
-    [SerializeField]
     private List<Vector3Int> path;
+
+    [SerializeField]
+    private List<GameObject> pathMarkers;
+
 
 
     private void Awake()
@@ -21,6 +27,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         path = new List<Vector3Int>();
+        pathMarkers = new List<GameObject>();
     }
 
     public void SelectPlayer(Player player)
@@ -69,7 +76,25 @@ public class GameManager : MonoBehaviour
             if (MapManager.instance.CheckTile(gridPosition) && !path.Contains(gridPosition))
             {
                 path.Add(gridPosition);
+                Vector3 point = MapManager.instance.GetWorldCords(gridPosition) + new Vector2(0.5f, 0.5f) ;
+                GameObject newMarker = Instantiate(pathMarkerPrefab, point, Quaternion.identity);
+                pathMarkers.Add(newMarker);
             }
+        }
+    }
+
+    public void RemoveMarker(int index)
+    {
+        pathMarkers[index].SetActive(false);
+    }
+
+    public void ClearPathMakerList()
+    {
+        pathMarkers.Clear();
+        GameObject[] allMark = GameObject.FindGameObjectsWithTag("Marker");
+        foreach(GameObject mark in allMark)
+        {
+            Destroy(mark);
         }
     }
 }

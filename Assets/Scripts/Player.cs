@@ -46,10 +46,12 @@ public class Player : MonoBehaviour
             {
                 isMoving = false;
                 path.Clear();
-                tileIndex = 1;
+                tileIndex = 0;
+                GameManager.instance.ClearPathMakerList();
             }
             else
             {
+                GameManager.instance.RemoveMarker(tileIndex);
                 tileIndex += 1;
             }
         }
@@ -58,7 +60,7 @@ public class Player : MonoBehaviour
     public void MoveTo(List<Vector2> path)
     {
         this.path = path;
-        tileIndex = 1;
+        tileIndex = 0;
         isMoving = true;
     }
 
