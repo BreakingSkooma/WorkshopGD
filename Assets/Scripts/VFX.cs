@@ -20,7 +20,7 @@ public class VFX : MonoBehaviour
         Vfx.SetActive(false);
     }
 
-    // Update is called once per frame//
+    // Update is called once per frame
     void Update()
     {
         Mouse();   

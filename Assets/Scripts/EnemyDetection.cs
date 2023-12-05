@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyDetection : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class EnemyDetection : MonoBehaviour
     public AudioClip audioClip;
     private AudioSource audioSource;
 
-    public UnityEvent onDetected;
+    public event Action PlayerDetected;
 
 
 
@@ -22,7 +21,6 @@ public class EnemyDetection : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = audioClip;
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        if (onDetected == null) onDetected = new UnityEvent();
         Debug.Log(player);
     }
 
@@ -46,7 +44,7 @@ public class EnemyDetection : MonoBehaviour
                         Debug.Log("Player detected!");
                         audioSource.Play();
                         playerDetected = true;
-                        onDetected.Invoke(); // Déclenche l'événement lorsque l'ennemi est détecté
+
                         // Ajoutez une ligne pour réinitialiser la détection
                         Invoke("ResetDetection", 2f); // Réinitialise après 2 secondes, ajustez selon vos besoins
                         break;
