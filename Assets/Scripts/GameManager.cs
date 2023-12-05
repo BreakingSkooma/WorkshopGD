@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void UnselectPlayer()
     {
+        playerSelected.UnSelected();
         playerSelected = null;
         path.Clear();
     }
