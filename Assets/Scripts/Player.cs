@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
             UpdateGridPosition();
             if (tileIndex == path.Count - 1)
             {
+                CameraSwitcher.instance.ZoomOut();
                 isMoving = false;
                 path.Clear();
                 tileIndex = 0;
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
     public void MoveTo(List<Vector2> path)
     {
         animator.LaunchMoveAnim();
+        CameraSwitcher.instance.ZoomIn(transform);
         this.path = path;
         tileIndex = 0;
         isMoving = true;
