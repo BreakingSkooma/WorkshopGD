@@ -99,22 +99,24 @@ public class Player : MonoBehaviour
 
     public void UnSelected()
     {
+        outliner.SetActive(false);
         animator.StopSelectedAnim();
     }
 
     private void OnMouseOver()
     {
-        if (gameObject.tag == "Selectable")
+        if (!isMoving)
         {
             outliner.SetActive(true);
-        } 
+        }
     }
 
     private void OnMouseExit()
     {
-        if (gameObject.tag == "Selectable")
+        if (GameManager.instance.getSelectedPlayer() != this)
         {
             outliner.SetActive(false);
         }
+        
     }
 }

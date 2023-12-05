@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> pathMarkers;
 
-
+    public Player getSelectedPlayer()
+    {
+        return playerSelected;
+    }
 
     private void Awake()
     {
@@ -66,8 +69,6 @@ public class GameManager : MonoBehaviour
                 }
                 playerSelected.MoveTo(MapManager.instance.ConvertToWorldCoordsList(path));
                 UnselectPlayer();
-                //Deselectionne le joueur si on clique sur le joueur
-                //Deplace le joueur sur la tuile puir le deselectionne
             }
         }
 
