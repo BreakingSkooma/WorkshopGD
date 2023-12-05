@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Classe qui gère le joueur
 public class Player : MonoBehaviour
@@ -8,6 +9,9 @@ public class Player : MonoBehaviour
     private Vector3Int gridPosition;
 
     private BoxCollider2D boxCollider;
+
+    [SerializeField]
+    private GameObject outliner;
 
     [SerializeField]
     private float moveSpeed;
@@ -96,5 +100,21 @@ public class Player : MonoBehaviour
     public void UnSelected()
     {
         animator.StopSelectedAnim();
+    }
+
+    private void OnMouseOver()
+    {
+        if (gameObject.tag == "Selectable")
+        {
+            outliner.SetActive(true);
+        } 
+    }
+
+    private void OnMouseExit()
+    {
+        if (gameObject.tag == "Selectable")
+        {
+            outliner.SetActive(false);
+        }
     }
 }
