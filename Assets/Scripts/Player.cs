@@ -16,9 +16,14 @@ public class Player : MonoBehaviour
     private List<Vector2> path;
     private int tileIndex;
 
+    [SerializeField]
+    private GameObject visualObject;
+    private PlayerAnimator animator;
+
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+        animator = visualObject.GetComponent<PlayerAnimator>();
         
     }
 
@@ -48,17 +53,20 @@ public class Player : MonoBehaviour
                 path.Clear();
                 tileIndex = 0;
                 GameManager.instance.ClearPathMakerList();
+                animator.StopMoveAnim();
             }
             else
             {
                 GameManager.instance.RemoveMarker(tileIndex);
                 tileIndex += 1;
+                
             }
         }
     }
 
     public void MoveTo(List<Vector2> path)
     {
+        animator.LaunchMoveAnim();
         this.path = path;
         tileIndex = 0;
         isMoving = true;
@@ -73,7 +81,18 @@ public class Player : MonoBehaviour
     {
         if (!isMoving)
         {
-            GameManager.instance.SelectPlayer(this);
+            Selected();
         }
+    }
+
+    public void Selected()
+    {
+        GameManager.instance.SelectPlayer(this);
+        animator.SelectedAnim();
+    }
+
+    public void UnSelected()
+    {
+        animator.StopSelectedAnim();
     }
 }
