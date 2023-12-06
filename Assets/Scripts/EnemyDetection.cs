@@ -45,8 +45,10 @@ public class EnemyDetection : MonoBehaviour
                         audioSource.Play();
                         playerDetected = true;
 
+                        GameManager.instance.PlayerDectected(this);
+
                         // Ajoutez une ligne pour réinitialiser la détection
-                        Invoke("ResetDetection", 2f); // Réinitialise après 2 secondes, ajustez selon vos besoins
+                        //Invoke("ResetDetection", 2f); // Réinitialise après 2 secondes, ajustez selon vos besoins
                         break;
                     }
                 }

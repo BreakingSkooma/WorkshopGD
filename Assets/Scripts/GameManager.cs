@@ -14,11 +14,17 @@ public class GameManager : MonoBehaviour
     private List<GameObject> entities;
 
     private Player playerSelected;
+    private Player lastPlayer;
 
     private List<Vector3Int> path;
 
     [SerializeField]
     private List<GameObject> pathMarkers;
+
+    [SerializeField]
+    private float detectionFocusTime = 2f;
+    private bool decectionFocus = false;
+    private float currentFocusTime;
 
     public Player getSelectedPlayer()
     {
@@ -41,6 +47,7 @@ public class GameManager : MonoBehaviour
     private void UnselectPlayer()
     {
         playerSelected.UnSelected();
+        lastPlayer = playerSelected;
         playerSelected = null;
         path.Clear();
     }
@@ -83,6 +90,32 @@ public class GameManager : MonoBehaviour
                 pathMarkers.Add(newMarker);
             }
         }
+
+        if (decectionFocus)
+        {
+            currentFocusTime -= Time.deltaTime;
+            if (currentFocusTime <= 0)
+            {
+                decectionFocus = false;
+                Time.timeScale = 1f;
+                if (lastPlayer.IsMoving())
+                {
+                    CameraSwitcher.instance.ZoomIn(lastPlayer.transform);
+                }
+                else
+                {
+                    CameraSwitcher.instance.ZoomOut();
+                }
+            }
+        }
+    }
+
+    public void PlayerDectected(EnemyDetection enemy)
+    {
+        CameraSwitcher.instance.ZoomIn(enemy.transform);
+        Time.timeScale = 0.5f;
+        currentFocusTime = detectionFocusTime;
+        decectionFocus = true;
     }
 
     public void RemoveMarker(int index)

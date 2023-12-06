@@ -440,6 +440,7 @@ MonoBehaviour:
   entities:
   - {fileID: 684461040}
   pathMarkers: []
+  detectionFocusTime: 1
 --- !u!1 &418969158
 GameObject:
   m_ObjectHideFlags: 0
