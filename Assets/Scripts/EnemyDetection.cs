@@ -14,6 +14,9 @@ public class EnemyDetection : MonoBehaviour
 
     public event Action PlayerDetected;
 
+    [SerializeField]
+    private EnemyAnimator enemyAnimator;
+
 
 
     void Start()
@@ -36,6 +39,7 @@ public class EnemyDetection : MonoBehaviour
         playerDetected = true;
 
         GameManager.instance.PlayerDectected(this);
+        enemyAnimator.LaunchDetectionAnimation();
     }
 
     void ResetDetection()
