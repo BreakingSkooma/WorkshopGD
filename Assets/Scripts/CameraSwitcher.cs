@@ -21,6 +21,11 @@ public class CameraSwitcher : MonoBehaviour
         zoomVirtualCamera = zoomCamera.GetComponent<CinemachineVirtualCamera>();
     }
 
+    private void Start()
+    {
+        ZoomOut();
+    }
+
     public void ZoomIn(Transform target)
     {
         zoomCamera.FollowTarget(target);

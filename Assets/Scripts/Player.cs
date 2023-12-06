@@ -24,6 +24,18 @@ public class Player : MonoBehaviour
     private GameObject visualObject;
     private PlayerAnimator animator;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private float stepTime;
+    private float currentTime = 0;
+
+    [SerializeField]
+    private float pitchMax;
+    [SerializeField]
+    private float pitchMin;
+
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -34,6 +46,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         UpdateGridPosition();
+        
     }
 
     private void Update()
@@ -41,6 +54,12 @@ public class Player : MonoBehaviour
         if (isMoving) 
         {
             Move();
+            currentTime -= Time.deltaTime;
+            if (currentTime <= 0)
+            {
+                PlayMoveSound();
+                currentTime = stepTime;
+            }
         }
     }
 
@@ -123,5 +142,12 @@ public class Player : MonoBehaviour
     public bool IsMoving()
     {
         return isMoving;
+    }
+
+    private void PlayMoveSound()
+    {
+        float pitch = Random.Range(pitchMin, pitchMax);
+        audioSource.pitch = pitch;
+        audioSource.Play();
     }
 }
