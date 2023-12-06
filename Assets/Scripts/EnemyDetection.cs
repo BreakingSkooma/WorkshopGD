@@ -3,43 +3,32 @@ using UnityEngine;
 
 public class EnemyDetection : MonoBehaviour
 {
-    public float detectionRadius = 5f;
-    public LayerMask playerLayer;
 
-    private Transform player;
     private bool playerDetected = false;
 
-    public AudioClip audioClip;
-    private AudioSource audioSource;
 
-    public event Action PlayerDetected;
+    [SerializeField]
+    private AudioSource defaultSource;
+    [SerializeField]
+    private AudioSource detectedSource;
+    [SerializeField]
+    private AudioSource alarmeSource;
 
     [SerializeField]
     private EnemyAnimator enemyAnimator;
 
 
 
-    void Start()
-    {
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = audioClip;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log(player);
-    }
-
-    void Update()
-    {
-
-    }
-
     public void PlayerIsDetected()
     {
         Debug.Log("Player detected!");
-        audioSource.Play();
         playerDetected = true;
 
         GameManager.instance.PlayerDectected(this);
         enemyAnimator.LaunchDetectionAnimation();
+        defaultSource.Stop();
+        detectedSource.Play();
+        alarmeSource.Play();
     }
 
     void ResetDetection()
@@ -47,10 +36,4 @@ public class EnemyDetection : MonoBehaviour
         playerDetected = false;
     }
 
-    void OnDrawGizmosSelected()
-    {
-        // Dessiner une boîte pour visualiser la zone de détection
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position + new Vector3(0, detectionRadius, 0), new Vector3(detectionRadius * 4, detectionRadius * 2, 0));
-    }
 }

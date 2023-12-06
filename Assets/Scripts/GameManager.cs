@@ -26,6 +26,14 @@ public class GameManager : MonoBehaviour
     private bool decectionFocus = false;
     private float currentFocusTime;
 
+    [SerializeField]
+    private AudioSource pathSound;
+    [SerializeField]
+    private AudioSource clickSource;
+
+    [SerializeField]
+    private BackgroundColorChange background;
+
     public Player getSelectedPlayer()
     {
         return playerSelected;
@@ -37,11 +45,12 @@ public class GameManager : MonoBehaviour
 
         path = new List<Vector3Int>();
         pathMarkers = new List<GameObject>();
-    }
+}
 
     public void SelectPlayer(Player player)
     {
         playerSelected = player;
+        clickSource.Play();
     }
 
     private void UnselectPlayer()
@@ -54,6 +63,29 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (decectionFocus)
+        {
+            currentFocusTime -= Time.deltaTime;
+            if (currentFocusTime <= 0)
+            {
+                decectionFocus = false;
+                Time.timeScale = 1f;
+                if (lastPlayer.IsMoving())
+                {
+                    CameraSwitcher.instance.ZoomIn(lastPlayer.transform);
+                }
+                else
+                {
+                    CameraSwitcher.instance.ZoomOut();
+                }
+            }
+        }
+
+        if (playerSelected == null)
+        {
+            return;
+        }
+
         Vector3Int gridPosition = MapManager.instance.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (Input.GetMouseButtonDown(0))
         {
@@ -75,6 +107,7 @@ public class GameManager : MonoBehaviour
                     return;
                 }
                 playerSelected.MoveTo(MapManager.instance.ConvertToWorldCoordsList(path));
+                clickSource.Play();
                 UnselectPlayer();
             }
         }
@@ -88,26 +121,11 @@ public class GameManager : MonoBehaviour
                 Vector3 point = MapManager.instance.GetWorldCords(gridPosition) + new Vector2(0.5f, 0.5f) ;
                 GameObject newMarker = Instantiate(pathMarkerPrefab, point, Quaternion.identity);
                 pathMarkers.Add(newMarker);
+                pathSound.Play();
             }
         }
 
-        if (decectionFocus)
-        {
-            currentFocusTime -= Time.deltaTime;
-            if (currentFocusTime <= 0)
-            {
-                decectionFocus = false;
-                Time.timeScale = 1f;
-                if (lastPlayer.IsMoving())
-                {
-                    CameraSwitcher.instance.ZoomIn(lastPlayer.transform);
-                }
-                else
-                {
-                    CameraSwitcher.instance.ZoomOut();
-                }
-            }
-        }
+        
     }
 
     public void PlayerDectected(EnemyDetection enemy)
@@ -116,6 +134,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.5f;
         currentFocusTime = detectionFocusTime;
         decectionFocus = true;
+        background.detected();
     }
 
     public void RemoveMarker(int index)
